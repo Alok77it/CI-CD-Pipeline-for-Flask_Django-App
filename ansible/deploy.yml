@@ -1,0 +1,15 @@
+- name: Deploy Flask CI/CD App
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Stop running container if exists
+      shell: |
+        docker stop flask-ci-cd || true
+        docker rm flask-ci-cd || true
+
+    - name: Pull latest image
+      shell: docker pull yourdockerhubusername/flask-ci-cd
+
+    - name: Run container
+      shell: docker run -d -p 80:5000 --name flask-ci-cd yourdockerhubusername/flask-ci-cd
